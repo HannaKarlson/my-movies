@@ -15,7 +15,6 @@ type Props = {
 export const imageWidth = Dimensions.get('screen').width * 0.35
 
 const MoviePreview = ({item, navigation}) => {
-  console.log(item.id)
 const [showPlaceholder, setShowPlaceholder] = useState(true)
   const overview = item.overview || 'No overview available...';
   const title = item.title || 'No title available...';

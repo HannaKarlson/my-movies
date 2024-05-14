@@ -6,6 +6,7 @@ import {
   FlatList,
   ActivityIndicator,
   StyleSheet,
+  Button,
 } from 'react-native';
 import {
   fetchMovies,
@@ -38,16 +39,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightGray,
     paddingHorizontal: 10,
   },
-  itemSeparatorComponent:{
-    height:20
-  }
+  itemSeparatorComponent: {
+    height: 20,
+  },
 });
 
 const ItemSeparatorComponent = () => {
-  return(
-    <View style={styles.itemSeparatorComponent} />
-  )
-}
+  return <View style={styles.itemSeparatorComponent} />;
+};
 
 const HomeScreen = ({navigation}) => {
   const userSessionId = useRef();
@@ -55,14 +54,13 @@ const HomeScreen = ({navigation}) => {
   const [fetchingMovies, setFetchingMovies] = useState(true);
   const [movies, setMovies] = useState([]);
   const startGuestSession = async () => {
-    setFetchingMovies(true)
+    setFetchingMovies(true);
     const result = await createGuestSession();
     if (result?.guest_session_id) {
       userSessionId.current = result?.guest_session_id;
       setIsLogged(true);
-    }
-    else{
-      setFetchingMovies(false)
+    } else {
+      setFetchingMovies(false);
     }
   };
   useEffect(() => {
@@ -73,19 +71,19 @@ const HomeScreen = ({navigation}) => {
       const getMovies = async () => {
         const movies = await fetchMovies();
         setMovies(movies);
-        setFetchingMovies(false)
+        setFetchingMovies(false);
       };
       getMovies();
     }
   }, [isLogged]);
 
-
-
   if (!isLogged && !fetchingMovies) {
     return (
       <View style={styles.errorView}>
         <View style={styles.center}>
-          <Text style={styles.errorText}>An error occured, check your internet connection</Text>
+          <Text style={styles.errorText}>
+            An error occured, check your internet connection
+          </Text>
           <TouchableOpacity onPress={startGuestSession}>
             <Text style={styles.link}>Retry</Text>
           </TouchableOpacity>
@@ -108,9 +106,24 @@ const HomeScreen = ({navigation}) => {
         renderItem={({item}) => (
           <MoviePreview item={item} navigation={navigation} />
         )}
-        ItemSeparatorComponent={<ItemSeparatorComponent/>}
-        ListHeaderComponent={<ItemSeparatorComponent/>}
-      />
+        ItemSeparatorComponent={<ItemSeparatorComponent />}
+        ListHeaderComponent={<ItemSeparatorComponent />}
+      /><TouchableOpacity onPress={() => navigation.navigate('ListsScreen')}>
+      <View
+        style={{
+          position: 'absolute',
+          bottom: 40,
+          right: 40,
+          backgroundColor: colors.linkBlue,
+          padding:10,
+          borderRadius:10
+          
+        }}>
+
+        <Text style={{color:colors.white, fontSize:20}}>My lists</Text>
+
+        
+      </View></TouchableOpacity>
     </View>
   );
 };
