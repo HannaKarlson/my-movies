@@ -36,8 +36,7 @@ const styles = StyleSheet.create({
   },
   container: {
     backgroundColor: colors.lightGray,
-    padding: 10,
-    paddingTop:20
+    paddingHorizontal: 10,
   },
   itemSeparatorComponent:{
     height:20
@@ -102,13 +101,15 @@ const HomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <FlatList
-        contentContainerStyle={{paddingBottom: 50}}
+        contentContainerStyle={{paddingBottom: 20}}
         showsVerticalScrollIndicator={false}
         data={movies}
+        keyExtractor={item => item.id}
         renderItem={({item}) => (
           <MoviePreview item={item} navigation={navigation} />
         )}
         ItemSeparatorComponent={<ItemSeparatorComponent/>}
+        ListHeaderComponent={<ItemSeparatorComponent/>}
       />
     </View>
   );
