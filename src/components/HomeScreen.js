@@ -16,6 +16,7 @@ import {
 import colors from '../theme/colors';
 import MoviePreview from './MoviePreview';
 import HomeScreenSkeleton from './HomeScreenSkeleton';
+import ListView from './ListView';
 
 const styles = StyleSheet.create({
   errorView: {
@@ -42,14 +43,21 @@ const styles = StyleSheet.create({
   itemSeparatorComponent: {
     height: 20,
   },
+  buttonText: {
+    color: colors.white,
+    fontSize: 20,
+  },
+  fab: {
+    position: 'absolute',
+    bottom: 40,
+    right: 40,
+    backgroundColor: colors.linkBlue,
+    padding: 10,
+    borderRadius: 10,
+  },
 });
 
-const ItemSeparatorComponent = () => {
-  return <View style={styles.itemSeparatorComponent} />;
-};
-
 const HomeScreen = ({navigation}) => {
-  const userSessionId = useRef();
   const [isLogged, setIsLogged] = useState(false);
   const [fetchingMovies, setFetchingMovies] = useState(true);
   const [movies, setMovies] = useState([]);
@@ -57,7 +65,6 @@ const HomeScreen = ({navigation}) => {
     setFetchingMovies(true);
     const result = await createGuestSession();
     if (result?.guest_session_id) {
-      userSessionId.current = result?.guest_session_id;
       setIsLogged(true);
     } else {
       setFetchingMovies(false);
@@ -97,34 +104,13 @@ const HomeScreen = ({navigation}) => {
   }
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        contentContainerStyle={{paddingBottom: 20}}
-        showsVerticalScrollIndicator={false}
-        data={movies}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <MoviePreview item={item} navigation={navigation} />
-        )}
-        ItemSeparatorComponent={<ItemSeparatorComponent />}
-        ListHeaderComponent={<ItemSeparatorComponent />}
-      /><TouchableOpacity onPress={() => navigation.navigate('ListsScreen')}>
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 40,
-          right: 40,
-          backgroundColor: colors.linkBlue,
-          padding:10,
-          borderRadius:10
-          
-        }}>
-
-        <Text style={{color:colors.white, fontSize:20}}>My lists</Text>
-
-        
-      </View></TouchableOpacity>
-    </View>
+    <ListView data={movies} navigation={navigation}>
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => navigation.navigate('ListsScreen')}>
+        <Text style={styles.buttonText}>My lists</Text>
+      </TouchableOpacity>
+    </ListView>
   );
 };
 

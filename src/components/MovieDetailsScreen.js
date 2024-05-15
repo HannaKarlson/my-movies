@@ -10,16 +10,50 @@ import watchList, {
 
 import colors from '../theme/colors';
 
+const deviceWidth = Dimensions.get('window').width;
+
 const styles = StyleSheet.create({
   pressableText:{
     color:colors.linkBlue,
     fontSize:14,
     fontWeight:'bold'
 
+  },
+  image:{
+    width: deviceWidth, height: deviceWidth * 0.563
+  },
+  noImage:{
+    backgroundColor: colors.structureGray,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  placeholder:{
+    position: 'absolute',
+    backgroundColor: colors.structureGray,
+  },
+  container:{
+    flex: 1, backgroundColor: colors.white
+  },
+  title:{
+    fontSize: 20,
+          fontWeight: 'bold',
+          margin: 10,
+          color: colors.darkText,
+  },
+  releaseDate:{
+    color: colors.darkText,
+          padding: 10,
+          fontWeight: '600',
+  },
+  overview:{
+    color: colors.darkText, padding: 10, paddingTop: 0
+  },
+  pressableContainer:{
+    flexDirection: 'row', margin:10, marginTop:20, justifyContent:'space-around'
   }
 })
 
-const deviceWidth = Dimensions.get('window').width;
+
 
 const ListActionPressable = ({movie, onPress, title}) => {
   return(
@@ -67,13 +101,7 @@ const MovieDetailsScreen = ({route}: Props) => {
     if (!backdrop) {
       return (
         <View
-          style={{
-            width: deviceWidth,
-            height: deviceWidth * 0.563,
-            backgroundColor: colors.structureGray,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+          style={[styles.image, styles.noImage]}>
           <Text>No image available</Text>
         </View>
       );
@@ -83,46 +111,32 @@ const MovieDetailsScreen = ({route}: Props) => {
         <Image
           onLoadEnd={() => setShowPlaceholder(false)}
           resizeMode="contain"
-          style={{width: deviceWidth, height: deviceWidth * 0.563}}
+          style={styles.image}
           source={{
             uri: `https://image.tmdb.org/t/p/w500${backdrop}`,
           }}
         />
         {showPlaceholder && (
           <View
-            style={{
-              width: deviceWidth,
-              height: deviceWidth * 0.563,
-              position: 'absolute',
-              backgroundColor: colors.structureGray,
-            }}
+            style={[styles.image, styles.placeholder]}
           />
         )}
       </>
     );
   };
   return (
-    <View style={{flex: 1, backgroundColor: colors.white}}>
+    <View style={styles.container}>
       <Text
-        style={{
-          fontSize: 20,
-          fontWeight: 'bold',
-          margin: 10,
-          color: colors.darkText,
-        }}>
+        style={styles.title}>
         {title}
       </Text>
       {renderImage()}
       <Text
-        style={{
-          color: colors.darkText,
-          padding: 10,
-          fontWeight: 600,
-        }}>{`Release date: ${releaseDate}`}</Text>
-      <Text style={{color: colors.darkText, padding: 10, paddingTop: 0}}>
+        style={styles.releaseDate}>{`Release date: ${releaseDate}`}</Text>
+      <Text style={styles.overview}>
         {overview}
       </Text>
-      <View style={{flexDirection: 'row', margin:10, marginTop:20, justifyContent:'space-around'}}>
+      <View style={styles.pressableContainer}>
         <ListActionPressable movie={movie} onPress={handlePressFavorite} title={favoriteButtonTitle}/>
         <ListActionPressable movie={movie} onPress={handlePressWatchList} title={watchListButtonTitle}/>
       </View>
