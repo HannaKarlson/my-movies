@@ -43,4 +43,4 @@ npx react-native run-ios
 
 ## Further improvements
 
-This project was written as a code challange with limited time available. In the future we could add state persistance, search functionallity, type check as well as graphical improvements such as icons and fonts.
+This project was written as a code challange with limited time available. In the future we could add search functionallity, type check as well as graphical improvements such as icons and fonts.

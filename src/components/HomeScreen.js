@@ -1,12 +1,9 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
-  FlatList,
-  ActivityIndicator,
   StyleSheet,
-  Button,
 } from 'react-native';
 import {
   fetchMovies,

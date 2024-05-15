@@ -18,12 +18,12 @@ const styles = StyleSheet.create({
   emptyView: {
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop:'60%'
+    marginTop: '60%',
   },
-  emptyText:{
-    fontSize:20,
-    color:colors.darkText
-  }
+  emptyText: {
+    fontSize: 20,
+    color: colors.darkText,
+  },
 });
 
 const ItemSeparatorComponent = () => {
@@ -42,6 +42,7 @@ const ListView = ({data, navigation, children}) => {
   return (
     <View style={styles.view}>
       <FlatList
+        initialNumToRender={5}
         contentContainerStyle={styles.container}
         showsVerticalScrollIndicator={false}
         data={data}

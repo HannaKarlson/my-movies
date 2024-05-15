@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {View, Text, Image, Dimensions, Button, TouchableOpacity, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  Button,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
 import {selectFavorites, addFavorite, removeFavorite} from '../redux/favorites';
 import watchList, {
@@ -13,54 +21,61 @@ import colors from '../theme/colors';
 const deviceWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
-  pressableText:{
-    color:colors.linkBlue,
-    fontSize:14,
-    fontWeight:'bold'
-
+  pressableText: {
+    color: colors.linkBlue,
+    fontSize: 14,
+    fontWeight: 'bold',
   },
-  image:{
-    width: deviceWidth, height: deviceWidth * 0.563
+  image: {
+    width: deviceWidth,
+    height: deviceWidth * 0.563,
   },
-  noImage:{
+  noImage: {
     backgroundColor: colors.structureGray,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  placeholder:{
+  placeholder: {
     position: 'absolute',
     backgroundColor: colors.structureGray,
   },
-  container:{
-    flex: 1, backgroundColor: colors.white
+  container: {
+    flex: 1,
+    backgroundColor: colors.white,
   },
-  title:{
+  title: {
     fontSize: 20,
-          fontWeight: 'bold',
-          margin: 10,
-          color: colors.darkText,
-  },
-  releaseDate:{
+    fontWeight: 'bold',
+    margin: 10,
     color: colors.darkText,
-          padding: 10,
-          fontWeight: '600',
   },
-  overview:{
-    color: colors.darkText, padding: 10, paddingTop: 0
+  releaseDate: {
+    color: colors.darkText,
+    padding: 10,
+    fontWeight: '600',
   },
-  pressableContainer:{
-    flexDirection: 'row', margin:10, marginTop:20, justifyContent:'space-around'
-  }
-})
-
-
+  overview: {
+    color: colors.darkText,
+    padding: 10,
+    paddingTop: 0,
+  },
+  pressableContainer: {
+    flexDirection: 'row',
+    margin: 10,
+    marginTop: 20,
+  },
+});
 
 const ListActionPressable = ({movie, onPress, title}) => {
-  return(
-  <TouchableOpacity disabled={!movie} onPress={onPress}>
-    <Text style={styles.pressableText}>{title}</Text>
-  </TouchableOpacity>)
-}
+  return (
+    <TouchableOpacity
+      disabled={!movie}
+      onPress={onPress}
+      style={{flex: 1, alignItems: 'center'}}>
+      <Text style={styles.pressableText}>{title}</Text>
+    </TouchableOpacity>
+  );
+};
 
 const MovieDetailsScreen = ({route}: Props) => {
   const [showPlaceholder, setShowPlaceholder] = useState(true);
@@ -100,8 +115,7 @@ const MovieDetailsScreen = ({route}: Props) => {
   const renderImage = () => {
     if (!backdrop) {
       return (
-        <View
-          style={[styles.image, styles.noImage]}>
+        <View style={[styles.image, styles.noImage]}>
           <Text>No image available</Text>
         </View>
       );
@@ -116,29 +130,27 @@ const MovieDetailsScreen = ({route}: Props) => {
             uri: `https://image.tmdb.org/t/p/w500${backdrop}`,
           }}
         />
-        {showPlaceholder && (
-          <View
-            style={[styles.image, styles.placeholder]}
-          />
-        )}
+        {showPlaceholder && <View style={[styles.image, styles.placeholder]} />}
       </>
     );
   };
   return (
     <View style={styles.container}>
-      <Text
-        style={styles.title}>
-        {title}
-      </Text>
+      <Text style={styles.title}>{title}</Text>
       {renderImage()}
-      <Text
-        style={styles.releaseDate}>{`Release date: ${releaseDate}`}</Text>
-      <Text style={styles.overview}>
-        {overview}
-      </Text>
+      <Text style={styles.releaseDate}>{`Release date: ${releaseDate}`}</Text>
+      <Text style={styles.overview}>{overview}</Text>
       <View style={styles.pressableContainer}>
-        <ListActionPressable movie={movie} onPress={handlePressFavorite} title={favoriteButtonTitle}/>
-        <ListActionPressable movie={movie} onPress={handlePressWatchList} title={watchListButtonTitle}/>
+        <ListActionPressable
+          movie={movie}
+          onPress={handlePressFavorite}
+          title={favoriteButtonTitle}
+        />
+        <ListActionPressable
+          movie={movie}
+          onPress={handlePressWatchList}
+          title={watchListButtonTitle}
+        />
       </View>
     </View>
   );
